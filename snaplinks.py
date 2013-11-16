@@ -16,13 +16,13 @@ import sys
 _SNAPSHOT_DIR_NAME_FORMAT = '%Y-%m-%d_%H:%M:%S.%f'
 
 
-def AddSnapshot(snapshot_base_dir_path, source_dir_path):
+def AddSnapshot(source_dir_path, snapshot_base_dir_path):
 	"""Creates a new snapshot of the source files in the snapshot directory.
 
 	Args:
+		source_dir_path: Directory to read from.
 		snapshot_base_dir_path: Path to a directory which will contain snapshots.
 				The directory will be created if it does not exist.
-		source_dir_path: Directory to read from.
 
 	Returns: The path of the newly-created snapshot directory.
 	"""
@@ -33,7 +33,7 @@ def AddSnapshot(snapshot_base_dir_path, source_dir_path):
 	new_snapshot_dir_name = datetime.datetime.utcnow().strftime(
 			_SNAPSHOT_DIR_NAME_FORMAT)
 	new_snapshot_dir_path = os.path.join(
-			snapshot_base_dir_path, new_snapshot_dir_path)
+			snapshot_base_dir_path, new_snapshot_dir_name)
 	os.mkdir(new_snapshot_dir_path)
 
 	for source_subdir_path, local_dir_names, local_file_names in os.walk(
@@ -117,7 +117,7 @@ def _CopyOrSymlinkFiles(
 		old_path = os.path.join(
 				snapshot_base_dir_path, old_snapshot_dir_name, relative_file_path)
 		new_path = os.path.join(
-				snapshot_base_dir_path, new_snapshot_dir_name, relative_file_path))
+				snapshot_base_dir_path, new_snapshot_dir_name, relative_file_path)
 		if _IsSameFile(src_path, old_path):
 			shutil.move(old_path, new_path)
 			os.symlink(
