@@ -1,7 +1,13 @@
 """Make versioned snapshots of a directory tree, symlinking between versions.
 
+Usage: python snaplinks.py src_dir snapshot_dir
+
 This targets a fairly simple case of regular files which may be created or
 deleted. It does not specially deal with moved files, symlinks, etc.
+
+The resultant snapshot directories may be deleted oldest first. Each only links
+to the next, however, so they are not resilient to deleting intermediate
+snapshots.
 """
 
 import datetime
